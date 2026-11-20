@@ -1,26 +1,390 @@
 @import "tailwindcss";
 
+/* ==========================================================
+   JOEY MUNEZ — PORTFOLIO DESIGN SYSTEM
+   Premium Dark / Minimal / Editorial
+========================================================== */
+
+@theme {
+  --color-portfolio-bg: #09090d;
+  --color-portfolio-surface: #101016;
+  --color-portfolio-elevated: #161620;
+  --color-portfolio-violet: #9b7bff;
+  --color-portfolio-muted: #92929f;
+
+  --font-sans: var(--font-geist-sans), Arial, sans-serif;
+
+  --animate-fade-up: fade-up 700ms ease-out both;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --background: #09090d;
+  --background-secondary: #0d0d13;
+  --surface: #111118;
+  --surface-hover: #171721;
+
+  /* Typography */
+  --text-primary: #f5f5f7;
+  --text-secondary: #b0b0bd;
+  --text-muted: #858593;
+  --text-subtle: #626270;
+
+  /* Brand */
+  --accent: #9b7bff;
+  --accent-hover: #b09aff;
+  --accent-deep: #7953e8;
+  --accent-glow: rgba(155, 123, 255, 0.13);
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.075);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --border-accent: rgba(155, 123, 255, 0.35);
+
+  /* Layout */
+  --container: 1280px;
+  --nav-height: 80px;
+  --section-space: clamp(88px, 10vw, 144px);
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0.65, 0.3, 1);
+  --transition-fast: 180ms var(--ease-standard);
+  --transition-normal: 300ms var(--ease-standard);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ==========================================================
+   RESET
+========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 20px);
+
+  background: var(--background);
+
+  scrollbar-width: thin;
+  scrollbar-color: #48415a var(--background);
 }
 
 body {
+  min-height: 100vh;
+  margin: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 50% -20%,
+      rgba(115, 80, 190, 0.075),
+      transparent 48%
+    ),
+    var(--background);
+
+  color: var(--text-primary);
+
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.75;
+
+  letter-spacing: -0.01em;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  color: #ffffff;
+  background: rgba(155, 123, 255, 0.4);
+}
+
+/* ==========================================================
+   TYPOGRAPHY
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+
+  color: var(--text-primary);
+
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+
+  text-wrap: balance;
+}
+
+h1 {
+  letter-spacing: -0.065em;
+}
+
+h2 {
+  letter-spacing: -0.05em;
+}
+
+p {
+  margin-top: 0;
+  text-wrap: pretty;
+}
+
+strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+small {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* ==========================================================
+   LINKS & BUTTONS
+========================================================== */
+
+a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+}
+
+a,
+button {
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Keyboard accessibility */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid var(--background);
+  border-radius: 999px;
+  background: #48415a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ==========================================================
+   SURFACES & REUSABLE DESIGN ELEMENTS
+========================================================== */
+
+.surface {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.surface-hover {
+  transition:
+    border-color var(--transition-normal),
+    background-color var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.surface-hover:hover {
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+  transform: translateY(-3px);
+}
+
+.glass {
+  border: 1px solid var(--border);
+  background: rgba(15, 15, 22, 0.78);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    110deg,
+    #d0c1ff 0%,
+    #a78bfa 48%,
+    #818cf8 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.accent-glow {
+  box-shadow: 0 0 55px rgba(139, 92, 246, 0.12);
+}
+
+.section-divider {
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================
+   FORM ELEMENTS
+========================================================== */
+
+input,
+textarea,
+select {
+  max-width: 100%;
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+
+  background: var(--surface);
+  color: var(--text-primary);
+
+  font: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-subtle);
+  opacity: 1;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(155, 123, 255, 0.12);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* ==========================================================
+   IMAGES & MEDIA
+========================================================== */
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+img {
+  display: block;
+  height: auto;
+}
+
+svg {
+  flex-shrink: 0;
+}
+
+/* ==========================================================
+   ANIMATIONS
+========================================================== */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 700ms var(--ease-standard) both;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN
+========================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 72px;
+    --section-space: 88px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  html {
+    scroll-padding-top: 82px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-space: 72px;
+  }
+}
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
